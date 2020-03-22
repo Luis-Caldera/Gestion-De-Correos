@@ -57,7 +57,7 @@ public class Login extends javax.swing.JFrame {
         telefono = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Login");
+        setTitle("Registro");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Correo electronico");
@@ -172,48 +172,44 @@ public class Login extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-              
-        ControlMensaje ventana = new ControlMensaje();       
+
+        ControlMensaje ventana = new ControlMensaje();
         ConectarMySQL cone = new ConectarMySQL();
-        
+
         try {
             // TODO add your handling code here:
             DaoObjetoAtributo dao = new DaoAtributoIMP();
             DatosRegistrarBasedato dato = new DatosRegistrarBasedato();
-           
+
             //toma el los datos que se ingresan en las cajas de texto correoSesion y contraSesion que los resibe como parametros el metodo buscarUsusarioRegistrado
-            
+
             String dat = dao.BuscarUsuarioRegistrado(correoSesion.getText(), contraSesion.getText());
-             
-           // JOptionPane.showMessageDialog(this, dat);        // manda un mensaje mostrando el valor de retorno del metodo, que puede ser encontrado o no encontrado                                           
-             
-            if ((correoSesion.getText().equals("")) || (contraSesion.getText().equals(""))) {   // evalua que los campos esten llenos 
+
+            // JOptionPane.showMessageDialog(this, dat);        // manda un mensaje mostrando el valor de retorno del metodo, que puede ser encontrado o no encontrado
+
+            if ((correoSesion.getText().equals("")) || (contraSesion.getText().equals(""))) {   // evalua que los campos esten llenos
 
                 JOptionPane.showMessageDialog(null, "los campos no pueden estar vacios. ");
 
             } else if (dat.equals("Usuario encontrado.")) {                                    // evalua que los datos sean correctos
-                
-                
-                JOptionPane.showMessageDialog(this, "se encontro el usuairo.");        // manda un mensaje mostrando el valor de retorno del metodo, que puede ser encontrado o no encontrado                                           
-                   ventana.setVisible(true);
-                      this.dispose();                         // cierra la vemtanita actual
+
+                JOptionPane.showMessageDialog(this, "se encontro el usuairo.");        // manda un mensaje mostrando el valor de retorno del metodo, que puede ser encontrado o no encontrado
+               
+                ventana.setVisible(true);
+                this.dispose();                         // cierra la vemtanita actual
 
             } if (dat.equals("usuario no fue encontrado.")){
-               JOptionPane.showMessageDialog(this, "no se pudo iniciar sesion, intente nuevamente."); 
-            } 
-            
-            
-               
+                JOptionPane.showMessageDialog(this, "no se pudo iniciar sesion, intente nuevamente.");
+            }
+
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
 
         }
 
-
-        
     }//GEN-LAST:event_jButton1ActionPerformed
+
 
     /**
      * @param args the command line arguments

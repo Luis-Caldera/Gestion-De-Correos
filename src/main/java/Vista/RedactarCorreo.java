@@ -10,8 +10,6 @@ import DAO.DaoAtributoIMP;
 import Interface.DaoObjetoAtributo;
 import Modelo.DatosEnviarCorreo;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -20,7 +18,6 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 
 /**
  *
@@ -178,50 +175,124 @@ public class RedactarCorreo extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    // boton que permite enviar correos dependiendo del tipo de servidr gmail,hotmail.
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       
-        
-        // enviarCorreo();
-        Properties propiedad = new Properties();
-        propiedad.setProperty("mail.smtp.host", "smtp.gmail.com");
-        propiedad.setProperty("mail.smtp.starttls.enable", "true");
-        propiedad.setProperty("mail.smtp.port", "587");
-        propiedad.setProperty("mail.smtp.auth", "true");
-
-        Session sesion = Session.getDefaultInstance(propiedad);
 
         try {
-            
             DaoObjetoAtributo dao = new DaoAtributoIMP();
+            String correo = dao.TraerCorreo();
             
-            String correoEnvia = dao.TraerCorreoUsuario();
-            String contrasena = dao.TraerContraseñaUsuario();
-            String destinatario = txtDestino.getText();
-            String asunto = txtAsunto.getText();
-            String mensaje = txtMensaje.getText();
+            
+            String cecar_edu_co = (correo.substring(correo.length() - 12));       // me toma los ultimos 12 ultimos cracteres de la cadena del correo 
+            String gmail_com = (correo.substring(correo.length() - 9));           // me toma los ultimos 9 ultimos cracteres de la cadena del correo
+            String hotmail_com = (correo.substring(correo.length() - 11));        // me toma los ultimos 11 ultimos cracteres de la cadena del correo
+            // enviarCorreo();
 
-            MimeMessage mail = new MimeMessage(sesion);
+            //imger = imger.toUpperCase();
+            if (cecar_edu_co.equals("cecar.edu.co")) {
 
-            mail.setFrom(new InternetAddress(correoEnvia));
-            mail.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));
-            mail.setSubject(asunto);
-            mail.setText(mensaje);
+                Properties propiedad = new Properties();
 
-            Transport transporte = sesion.getTransport("smtp");
-            transporte.connect(correoEnvia, contrasena);
-            transporte.sendMessage(mail, mail.getRecipients(Message.RecipientType.TO));
-            transporte.close();
+                propiedad.setProperty("mail.smtp.host", "smtp.gmail.com");
+                propiedad.setProperty("mail.smtp.starttls.enable", "true");
+                propiedad.setProperty("mail.smtp.port", "587");
+                propiedad.setProperty("mail.smtp.auth", "true");
 
-            JOptionPane.showMessageDialog(null, "Correo enviado");
+                Session sesion = Session.getDefaultInstance(propiedad);
+                System.out.println("entro a." + cecar_edu_co);
+                String correoEnvia = dao.TraerCorreo();
+                String contrasena = dao.TraerContraseñaUsuario();
+                String destinatario = txtDestino.getText();
+                String asunto = txtAsunto.getText();
+                String mensaje = txtMensaje.getText();
+
+                MimeMessage mail = new MimeMessage(sesion);
+
+                mail.setFrom(new InternetAddress(correoEnvia));
+                mail.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));
+                mail.setSubject(asunto);
+                mail.setText(mensaje);
+
+                Transport transporte = sesion.getTransport("smtp");
+                transporte.connect(correoEnvia, contrasena);
+                transporte.sendMessage(mail, mail.getRecipients(Message.RecipientType.TO));
+                transporte.close();
+
+                JOptionPane.showMessageDialog(null, "Correo enviado");
+
+            } else if (gmail_com.equals("gmail.com")) {
+
+                Properties propiedad = new Properties();
+
+                System.out.println("entro a." + gmail_com);
+
+                propiedad.setProperty("mail.smtp.host", "smtp.gmail.com");
+                propiedad.setProperty("mail.smtp.starttls.enable", "true");
+                propiedad.setProperty("mail.smtp.port", "587");
+                propiedad.setProperty("mail.smtp.auth", "true");
+
+                Session sesion = Session.getDefaultInstance(propiedad);
+                String correoEnvia = dao.TraerCorreo();
+                String contrasena = dao.TraerContraseñaUsuario();
+                String destinatario = txtDestino.getText();
+                String asunto = txtAsunto.getText();
+                String mensaje = txtMensaje.getText();
+
+                MimeMessage mail = new MimeMessage(sesion);
+
+                mail.setFrom(new InternetAddress(correoEnvia));
+                mail.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));
+                mail.setSubject(asunto);
+                mail.setText(mensaje);
+
+                Transport transporte = sesion.getTransport("smtp");
+                transporte.connect(correoEnvia, contrasena);
+                transporte.sendMessage(mail, mail.getRecipients(Message.RecipientType.TO));
+                transporte.close();
+
+                JOptionPane.showMessageDialog(null, "Correo enviado");
+
+            } else if (hotmail_com.equals("hotmail.com")) {
+                Properties propiedad = new Properties();
+
+                System.out.println("entro a." + hotmail_com);
+
+                propiedad.setProperty("mail.smtp.host", "smtp.live.com");
+                propiedad.setProperty("mail.smtp.starttls.enable", "true");
+                propiedad.setProperty("mail.smtp.port", "25");
+                propiedad.setProperty("mail.smtp.auth", "true");
+
+                Session sesion = Session.getDefaultInstance(propiedad);
+                String correoEnvia = dao.TraerCorreo();
+                String contrasena = dao.TraerContraseñaUsuario();
+                String destinatario = txtDestino.getText();
+                String asunto = txtAsunto.getText();
+                String mensaje = txtMensaje.getText();
+
+                MimeMessage mail = new MimeMessage(sesion);
+
+                mail.setFrom(new InternetAddress(correoEnvia));
+                mail.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));
+                mail.setSubject(asunto);
+                mail.setText(mensaje);
+
+                Transport transporte = sesion.getTransport("smtp");
+                transporte.connect(correoEnvia, contrasena);
+                transporte.sendMessage(mail, mail.getRecipients(Message.RecipientType.TO));
+                transporte.close();
+
+                JOptionPane.showMessageDialog(null, "Correo enviado");
+
+            }
 
         } catch (AddressException ex) {
-           // Logger.getLogger(RedactarCorreo.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(RedactarCorreo.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
         } catch (MessagingException ex) {
-           // Logger.getLogger(RedactarCorreo.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(RedactarCorreo.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
         } catch (Exception ex) {
-           // Logger.getLogger(RedactarCorreo.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(RedactarCorreo.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
         }
 

@@ -18,8 +18,11 @@ public interface DaoObjetoAtributo {
     public void     LimpiarBD()   throws Exception;
     public void     Listar(DatosRegistrarBasedato          datos)   throws Exception;
     public void     validarDatosUsuario(DatosRegistrarBasedato    datos)   throws Exception;
-    public String   TraerCorreoUsuario( ) throws Exception;   
+    public String   TraerCorreoUsuario(String correo, String contraseña) throws Exception;
+    public String   TraerCorreo() throws Exception;
     public String   TraerContraseñaUsuario()throws Exception;
-    public String   TraerNombreUsuario() throws Exception;
+    public String   TraerNombreUsuario(String correo, String contraseña) throws Exception;
+    public String   TraerApellidoUsuario(String correo, String contraseña) throws Exception;
+    public String   BuscarInformacionUsuario(String correo, String contraseña) throws Exception;
  
 }

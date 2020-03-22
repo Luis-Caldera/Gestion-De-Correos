@@ -61,7 +61,7 @@ public class DaoAtributoIMP extends ConectarMySQL implements DaoObjetoAtributo {
             if (resultado.next()) {                             // inicia la busqueda
                
                 busqueda_usuario = ("Usuario encontrado.");     //  envia este mensaje si los datos son correctos
-
+                
             }else{
                 busqueda_usuario = ("usuario no fue encontrado.");  // envia este si los datos son incorrectos 
             }
@@ -102,19 +102,19 @@ public class DaoAtributoIMP extends ConectarMySQL implements DaoObjetoAtributo {
     }
 
     @Override
-    public String TraerCorreoUsuario() throws Exception {
+    public String TraerCorreoUsuario(String correo, String contraseña) throws Exception {
        
         String busqueda_correo = null;
 
         try {
             this.Conectar();
-            PreparedStatement st = this.conexion.prepareStatement("SELECT `Correo Electrónico` FROM `correo` " );
+            PreparedStatement st = this.conexion.prepareStatement("SELECT `Nombre`, `Apellido`, `Contraseña`, `Correo Electrónico`, `Teléfono` FROM `correo` WHERE `Correo Electrónico` = '"+ correo +"' && `Contraseña` = '"+contraseña+"'" );
             ResultSet resultado = st.executeQuery();
-           
+          
             if (resultado.next()) {                             // inicia la busqueda
                
-                busqueda_correo = resultado.getString(1);     //  
-
+                busqueda_correo = resultado.getString(4);     // 
+              
             }
 
         } catch (Exception e) {
@@ -149,18 +149,19 @@ public class DaoAtributoIMP extends ConectarMySQL implements DaoObjetoAtributo {
     }
 
     @Override
-    public String TraerNombreUsuario() throws Exception {
+    public String TraerNombreUsuario(String correo, String contraseña) throws Exception {
        
         String busqueda_nombre = null;
+        
 
         try {
             this.Conectar();
-            PreparedStatement st = this.conexion.prepareStatement("SELECT `Nombre` FROM `correo` " );
+            PreparedStatement st = this.conexion.prepareStatement("SELECT `Nombre`, `Apellido`, `Contraseña`, `Correo Electrónico`, `Teléfono` FROM `correo` WHERE `Correo Electrónico` = '"+ correo +"' && `Contraseña` = '"+contraseña+"'" );
             ResultSet resultado = st.executeQuery();
            
             if (resultado.next()) {                             // inicia la busqueda
                
-                busqueda_nombre = resultado.getString(1);     //  
+                busqueda_nombre = (resultado.getString(1));     //  
 
             }
 
@@ -171,6 +172,83 @@ public class DaoAtributoIMP extends ConectarMySQL implements DaoObjetoAtributo {
         
         return busqueda_nombre;
     }
+
+    @Override
+    public String TraerApellidoUsuario(String correo, String contraseña) throws Exception {
+       String busqueda_apellido = null;
+        
+
+        try {
+            this.Conectar();
+            PreparedStatement st = this.conexion.prepareStatement("SELECT `Nombre`, `Apellido`, `Contraseña`, `Correo Electrónico`, `Teléfono` FROM `correo` WHERE `Correo Electrónico` = '"+ correo +"' && `Contraseña` = '"+contraseña+"'"  );
+            ResultSet resultado = st.executeQuery();
+           
+            if (resultado.next()) {                             // inicia la busqueda
+               
+                busqueda_apellido = (resultado.getString(2));     //  
+
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());                 // mensaje de posibñle eror en la conexion 
+        } 
+      
+        
+        return busqueda_apellido;
+    }
     
 
+    @Override
+    public String BuscarInformacionUsuario(String correo, String contraseña ) throws Exception {
+
+        String busqueda_usuario = null;
+
+        try {
+            this.Conectar();
+            PreparedStatement st = this.conexion.prepareStatement("SELECT `Nombre`, `Apellido`, `Contraseña`, `Correo Electrónico`, `Teléfono` FROM `correo` WHERE `Correo Electrónico` = '"+ correo +"' && `Contraseña` = '"+contraseña+"'" );
+            ResultSet resultado = st.executeQuery();
+           
+            if (resultado.next()) {                             // inicia la busqueda
+               
+                busqueda_usuario = (resultado.getString(1));     //  envia este mensaje si los datos son correctos
+                busqueda_usuario = (resultado.getString(2));
+                busqueda_usuario = (resultado.getString(3));
+                busqueda_usuario = (resultado.getString(4));
+                busqueda_usuario = (resultado.getString(5));
+                
+            }else{
+                busqueda_usuario = ("usuario no fue encontrado.");  // envia este si los datos son incorrectos 
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());                 // mensaje de posibñle eror en la conexion 
+        } 
+//        finally {
+//            this.Cerrar();                                      // permite cerrar el canal de la conexion a la base datos 
+//        }
+        
+        return busqueda_usuario;                                // retorna el vlaor string de la busqueda 
+    }
+
+    @Override
+    public String TraerCorreo() throws Exception {
+      String busqueda_correo = null;
+
+        try {
+            this.Conectar();
+            PreparedStatement st = this.conexion.prepareStatement("SELECT `Correo Electrónico` FROM `correo` ");
+            ResultSet resultado = st.executeQuery();
+           
+            if (resultado.next()) {                             // inicia la busqueda
+               
+                busqueda_correo = resultado.getString(1);     //  
+
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());                 // mensaje de posibñle eror en la conexion 
+        } 
+        
+        return busqueda_correo;
+    }
 }
